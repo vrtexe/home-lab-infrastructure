@@ -1,0 +1,7 @@
+# https://github.com/siderolabs/image-factory/
+customization:
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/intel-ucode
+      - siderolabs/iscsi-tools
+      - siderolabs/qemu-guest-agent

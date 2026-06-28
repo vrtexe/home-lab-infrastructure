@@ -1,0 +1,20 @@
+machine:
+  type: worker
+  install:
+    disk: ${install_disk}
+    image: ${install_image}
+  network:
+    interfaces:
+      - interface: "eth0"
+        dhcp: false
+        addresses:
+          - ${node_address}
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: ${node_gateway}
+cluster:
+  network:
+    cni:
+      name: none
+  proxy:
+    disabled: false

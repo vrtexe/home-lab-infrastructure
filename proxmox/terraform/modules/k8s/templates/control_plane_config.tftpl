@@ -1,0 +1,26 @@
+machine:
+  type: controlplane
+  install:
+    disk: ${install_disk}
+    image: ${install_image}
+  kubelet:
+    nodeIP:
+      validSubnets:
+        - ${kubelet_node_ip_subnet}
+  network:
+    interfaces:
+      - interface: "eth0"
+        dhcp: false
+        addresses:
+          - ${node_address}
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: ${node_gateway}
+        vip:
+          ip: ${vip_shared_ip}
+cluster:
+  network:
+    cni:
+      name: none
+  proxy:
+    disabled: false
