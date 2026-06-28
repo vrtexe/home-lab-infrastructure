@@ -18,7 +18,7 @@ PROXMOX_TOKEN_DIRECTORY="/root/tokens"
 PROXMOX_SCRIPTS_DIR="scripts"
 PROXMOX_BOOTSTRAP_SCRIPT="bootstrap.sh"
 PROXMOX_DEST_DIR="/root"
-PROXMOX_SECRET_DEST="terraform/proxmox_secret.tfvars"
+PROXMOX_TERRAFORM_SECRET_DEST="terraform/proxmox_secret.tfvars"
 
 LOCAL_CONFIG_DIRECTORY="$(realpath "$__cfg_dir")"
 LOCAL_ROOT="$LOCAL_CONFIG_DIRECTORY/.."
