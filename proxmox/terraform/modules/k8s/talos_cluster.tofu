@@ -41,6 +41,6 @@ data "talos_cluster_health" "talos_health" {
   endpoints = local.talos_endpoints
 
   timeouts = {
-    read = "3m"
+    read = "5m"
   }
 }

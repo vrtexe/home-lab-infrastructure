@@ -2,6 +2,7 @@ resource "proxmox_virtual_environment_vm" "control_plane_vm" {
   depends_on = [proxmox_download_file.linux_iso_image]
   name       = each.value.name_vm
   node_name  = var.proxmox_target_node
+  tags       = ["kubernetes", "control-plane"]
   for_each   = var.cluster_data.control_planes
 
   agent {
@@ -13,23 +14,26 @@ resource "proxmox_virtual_environment_vm" "control_plane_vm" {
     type  = "host"
   }
 
-  boot_order = ["scsi0", "ide3", "net0"]
+  boot_order = ["scsi0", "sata0", "net0"]
 
   memory {
     dedicated = coalesce(each.value.memory, var.cluster_data.memory)
     floating  = coalesce(each.value.memory, var.cluster_data.memory)
   }
 
-  bios = "ovmf"
+  machine = "q35"
+  bios    = "ovmf"
 
   cdrom {
-    file_id = proxmox_download_file.linux_iso_image.id
+    file_id   = proxmox_download_file.linux_iso_image.id
+    interface = "sata0"
   }
 
   efi_disk {
     datastore_id      = "local-lvm"
     file_format       = "raw"
-    pre_enrolled_keys = true
+    type              = "4m"
+    pre_enrolled_keys = false
   }
 
   disk {
@@ -43,6 +47,10 @@ resource "proxmox_virtual_environment_vm" "control_plane_vm" {
   network_device {
     bridge = "vmbr0"
     model  = "virtio"
+  }
+
+  operating_system {
+    type = "l26"
   }
 
   initialization {
