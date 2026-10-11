@@ -13,6 +13,11 @@ resource "talos_machine_configuration_apply" "control_plane" {
   machine_configuration_input = data.talos_machine_configuration.control_plane.machine_configuration
   for_each                    = var.cluster_data.control_planes
   node                        = each.value.host
+
+  lifecycle {
+    ignore_changes = [config_patches]
+  }
+
   config_patches = [
     templatefile("${path.module}/templates/control_plane_config.tftpl", {
       network_hostname       = each.value.name

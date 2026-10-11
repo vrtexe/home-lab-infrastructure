@@ -22,6 +22,12 @@ variable "proxmox_target_node" {
   default     = "pve"
 }
 
+variable "github_flux_token" {
+  description = "GitHub token for Flux"
+  type        = string
+  sensitive   = true
+}
+
 variable "talos_image" {
   description = "Talos image configuration"
   type = object({
@@ -64,13 +70,43 @@ variable "talos_config_path" {
   default     = ".data/talos_config.yaml"
 }
 
+variable "control_plane_ip" {
+  description = "IP address of the Talos control plane"
+  type        = string
+  default     = "192.168.100.20"
+}
+
+variable "control_plane_port" {
+  description = "Port of the Talos control plane"
+  type        = string
+  default     = "6443"
+}
+
+variable "cloudflare_api_token" {
+  description = "Cloudflare API token for authentication"
+  type        = string
+  sensitive   = true
+}
+
+variable "cloudflare_zone_id" {
+  description = "Cloudflare Zone ID for the domain"
+  type        = string
+  sensitive   = true
+}
+
+variable "cloudflare_account_id" {
+  description = "Cloudflare Account ID"
+  type        = string
+  sensitive   = true
+}
+
 variable "cluster_data" {
   description = "Cluster data for Talos control plane configuration"
   type = object({
-    cpu           = number
-    memory        = number
-    disk          = number
-    install_disk  = string
+    cpu          = number
+    memory       = number
+    disk         = number
+    install_disk = string
     control_planes = map(object({
       host         = string
       name_vm      = string

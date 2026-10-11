@@ -1,0 +1,21 @@
+crds:
+  keep: false
+
+global:
+  domain: argocd.cloud.vrtexe.com
+
+configs:
+  repositories:
+    homelab-gitops:
+      url: https://github.com/vrtexe/homelab-gitops.git
+      type: git
+
+dex:
+  enabled: false
+
+applicationSet:
+  enabled: false
+
+notifications:
+  enabled: false
+

@@ -32,7 +32,7 @@ module "k8s" {
   depends_on = [module.vm]
   providers = {
     talos = talos
-    helm  = helm
+    helm  = helm.template
   }
 
   kubernetes_version    = var.kubernetes_version
@@ -49,6 +49,28 @@ module "helm" {
   providers = {
     helm = helm
   }
+}
 
-  control_plane_ip = var.cluster_vip_shared_ip
+module "flux" {
+  source     = "./modules/flux"
+  depends_on = [module.helm]
+  providers = {
+    helm = helm
+  }
+
+  flux_git_token = var.github_flux_token
+}
+
+module "cloudflare" {
+  source     = "./modules/cloudflare"
+  depends_on = [module.helm]
+
+  providers = {
+    cloudflare = cloudflare
+    kubernetes = kubernetes
+  }
+
+  cloudflare_api_token  = var.cloudflare_api_token
+  cloudflare_account_id = var.cloudflare_account_id
+  cloudflare_zone_id    = var.cloudflare_zone_id
 }
